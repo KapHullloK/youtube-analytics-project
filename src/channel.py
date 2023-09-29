@@ -10,21 +10,17 @@ API_KEY = os.getenv('YT_API')
 
 class Channel:
     def __init__(self, channel_id: str) -> None:
-        self.channel_id = channel_id
+        self.__channel_id = channel_id
 
-        self.__youtube = build('youtube', 'v3', developerKey=API_KEY)
-        self.__channel = self.__youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
+        self._youtube = build('youtube', 'v3', developerKey=API_KEY)
+        self._channel = self._youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
 
-        self.title = self.__channel["items"][0]["snippet"]["title"]
-        self.description = self.__channel["items"][0]["snippet"]["description"]
-        self.url = "https://www.youtube.com/" + self.__channel["items"][0]["snippet"]["customUrl"]
-        self.subscribers = self.__channel["items"][0]["statistics"]["subscriberCount"]
-        self.video_count = self.__channel["items"][0]["statistics"]["videoCount"]
-        self.views = self.__channel["items"][0]["statistics"]["viewCount"]
-
-    @property
-    def info_channel(self):
-        return self.__channel
+        self.title = self._channel["items"][0]["snippet"]["title"]
+        self.description = self._channel["items"][0]["snippet"]["description"]
+        self.url = "https://www.youtube.com/" + self._channel["items"][0]["snippet"]["customUrl"]
+        self.subscribers = self._channel["items"][0]["statistics"]["subscriberCount"]
+        self.video_count = self._channel["items"][0]["statistics"]["videoCount"]
+        self.views = self._channel["items"][0]["statistics"]["viewCount"]
 
     @classmethod
     def get_service(cls):
@@ -43,7 +39,7 @@ class Channel:
             existing_data = []
 
         existing_data.append({
-            "channel_id": self.channel_id,
+            "channel_id": self.__channel_id,
             "title": self.title,
             "description": self.description,
             "url": self.url,
