@@ -9,7 +9,7 @@ load_dotenv()
 API_KEY = os.environ.get('YT_API')
 
 
-class PlayList():
+class PlayList:
     youtube = build('youtube', 'v3', developerKey=API_KEY)
 
     def __init__(self, playlist_id: str):
